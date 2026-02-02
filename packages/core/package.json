@@ -1,10 +1,7 @@
 {
-  "name": "ai-kits",
+  "name": "ai-kit/core",
   "module": "index.ts",
   "type": "module",
-  "workspaces": [
-    "packages/*"
-  ],
   "devDependencies": {
     "@types/bun": "latest"
   },
