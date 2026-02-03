@@ -1,21 +1,21 @@
 // 导出所有类型
 export * from './types';
 
-import type { Provider, Context, AssistantMessage, StreamResult } from './types';
+import type { Provider, Context, AssistantMessage, StreamResult, ModelId } from './types';
 
 export * from './model';
 
 /**
  * 流式调用模型
  */
-export function stream(model: Model, context: Context): StreamResult {
+export function stream(model: ModelId, context: Context): StreamResult {
   throw new Error('Not implemented: stream');
 }
 
 /**
  * 非流式调用模型，返回完整响应
  */
-export async function complete(model: Model, context: Context): Promise<AssistantMessage> {
+export async function complete(model: ModelId, context: Context): Promise<AssistantMessage> {
   throw new Error('Not implemented: complete');
 }
 

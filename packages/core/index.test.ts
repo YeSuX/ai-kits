@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { getModel, stream, complete, type Context, type Tool, type Model } from './index';
+import { getModel, type ModelId, type Provider } from './index';
 
 describe('pi-ai core API', () => {
   describe('getModel', () => {
@@ -21,8 +21,8 @@ describe('pi-ai core API', () => {
     // });
 
     it('应该在无效的 provider 或 model 时抛出错误', () => {
-      expect(() => getModel('invalid' as any, 'model')).toThrow();
-      expect(() => getModel('openai', 'invalid-model')).toThrow();
+      expect(() => getModel('invalid' as any, 'model' as ModelId)).toThrow();
+      expect(() => getModel('openai' as Provider, 'invalid-model' as ModelId)).toThrow();
     });
   });
 

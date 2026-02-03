@@ -13,5 +13,16 @@ for (const [provider, models] of Object.entries(MODELS)) {
 
 export function getModel(provider: Provider, modelId: ModelId) {
     const providerModels = modelRegistry.get(provider);
-    return providerModels?.get(modelId);
+    
+    if (!providerModels) {
+        throw new Error(`Invalid provider: ${provider}`);
+    }
+    
+    const model = providerModels.get(modelId);
+    
+    if (!model) {
+        throw new Error(`Invalid model: ${modelId} for provider: ${provider}`);
+    }
+    
+    return model;
 }
