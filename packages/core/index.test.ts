@@ -26,50 +26,50 @@ describe('pi-ai core API', () => {
     });
   });
 
-  // describe('complete - 非流式调用', () => {
-  //   let context: Context;
+  describe('complete - 非流式调用', () => {
+    let context: Context;
 
-  //   beforeEach(() => {
-  //     context = {
-  //       systemPrompt: 'You are a helpful assistant.',
-  //       messages: [{ role: 'user', content: 'Hello!' }]
-  //     };
-  //   });
+    beforeEach(() => {
+      context = {
+        systemPrompt: 'You are a helpful assistant.',
+        messages: [{ role: 'user', content: 'Hello!' }]
+      };
+    });
 
-  //   it('应该返回完整的响应消息', async () => {
-  //     const model = getModel('openai', 'gpt-4o-mini');
-  //     const response = await complete(model, context);
+    it('应该返回完整的响应消息', async () => {
+      const model = getModel('kimi', 'kimi-k2.5');
+      const response = await complete(model, context);
 
-  //     expect(response).toBeDefined();
-  //     expect(response.role).toBe('assistant');
-  //     expect(response.content).toBeInstanceOf(Array);
-  //     expect(response.timestamp).toBeTypeOf('number');
-  //     expect(response.model).toBe('gpt-4o-mini');
-  //   });
+      expect(response).toBeDefined();
+      expect(response.role).toBe('assistant');
+      expect(response.content).toBeInstanceOf(Array);
+      expect(response.timestamp).toBeTypeOf('number');
+      expect(response.model).toBe('gpt-4o-mini');
+    });
 
-  //   it('应该包含 usage 信息', async () => {
-  //     const model = getModel('openai', 'gpt-4o-mini');
-  //     const response = await complete(model, context);
+    it('应该包含 usage 信息', async () => {
+      const model = getModel('openai', 'gpt-4o-mini');
+      const response = await complete(model, context);
 
-  //     expect(response.usage).toBeDefined();
-  //     expect(response.usage.input).toBeGreaterThan(0);
-  //     expect(response.usage.output).toBeGreaterThan(0);
-  //     expect(response.usage.cost).toBeDefined();
-  //     expect(response.usage.cost.input).toBeGreaterThanOrEqual(0);
-  //     expect(response.usage.cost.output).toBeGreaterThanOrEqual(0);
-  //     expect(response.usage.cost.total).toBeGreaterThanOrEqual(0);
-  //   });
+      expect(response.usage).toBeDefined();
+      expect(response.usage.input).toBeGreaterThan(0);
+      expect(response.usage.output).toBeGreaterThan(0);
+      expect(response.usage.cost).toBeDefined();
+      expect(response.usage.cost.input).toBeGreaterThanOrEqual(0);
+      expect(response.usage.cost.output).toBeGreaterThanOrEqual(0);
+      expect(response.usage.cost.total).toBeGreaterThanOrEqual(0);
+    });
 
-  //   it('应该正确处理文本内容', async () => {
-  //     const model = getModel('openai', 'gpt-4o-mini');
-  //     const response = await complete(model, context);
+    it('应该正确处理文本内容', async () => {
+      const model = getModel('openai', 'gpt-4o-mini');
+      const response = await complete(model, context);
 
-  //     const textBlocks = response.content.filter(b => b.type === 'text');
-  //     expect(textBlocks.length).toBeGreaterThan(0);
-  //     expect(textBlocks[0]).toHaveProperty('text');
-  //     expect(typeof textBlocks[0].text).toBe('string');
-  //   });
-  // });
+      const textBlocks = response.content.filter(b => b.type === 'text');
+      expect(textBlocks.length).toBeGreaterThan(0);
+      expect(textBlocks[0]).toHaveProperty('text');
+      expect(typeof textBlocks[0].text).toBe('string');
+    });
+  });
 
   // describe('stream - 流式调用', () => {
   //   let context: Context;
