@@ -2,8 +2,15 @@
   "name": "ai-kit/core",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "vitest": "^4.0.18"
   },
   "peerDependencies": {
     "typescript": "^5"
