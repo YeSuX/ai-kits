@@ -1,6 +1,6 @@
 // ============ Model Types ============
 
-export type Provider = 'openai' | 'anthropic' | 'google' | 'deepseek';
+export type Provider = 'kimi';
 
 export interface Model {
   provider: Provider;

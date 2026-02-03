@@ -3,14 +3,7 @@ export * from './types';
 
 import type { Model, Provider, Context, AssistantMessage, StreamResult } from './types';
 
-// ============ Core API Functions ============
-
-/**
- * 获取指定 provider 和 model 的模型实例
- */
-export function getModel(provider: Provider, name: string): Model {
-  throw new Error('Not implemented: getModel');
-}
+export * from './model';
 
 /**
  * 流式调用模型
