@@ -1,11 +1,11 @@
-// ============ Model Types ============
+import type { MODELS } from "./model.constant";
 
 export type Provider = 'kimi';
 
-export interface Model {
-  provider: Provider;
-  name: string;
-}
+// 提取所有 model ID 的类型
+export type ModelId = {
+  [P in keyof typeof MODELS]: keyof typeof MODELS[P]
+}[keyof typeof MODELS];
 
 // ============ Content Types ============
 

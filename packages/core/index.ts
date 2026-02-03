@@ -1,7 +1,7 @@
 // 导出所有类型
 export * from './types';
 
-import type { Model, Provider, Context, AssistantMessage, StreamResult } from './types';
+import type { Provider, Context, AssistantMessage, StreamResult } from './types';
 
 export * from './model';
 

@@ -4,13 +4,14 @@ import { getModel, stream, complete, type Context, type Tool, type Model } from 
 describe('pi-ai core API', () => {
   describe('getModel', () => {
     it('应该能够通过 provider 和 model name 获取模型实例', () => {
-      const model = getModel('kimi', '');
+      const model = getModel('kimi', 'kimi-k2.5');
 
       expect(model).toBeDefined();
-      expect(model.provider).toBe('openai');
-      expect(model.name).toBe('gpt-4o-mini');
+      expect(model.provider).toBe('kimi');
+      expect(model.name).toBe('Kimi K2.5');
     });
 
+    // TODO: 支持多个 provider，deepseek 和 minimax
     // it('应该支持多个 provider', () => {
     //   const openaiModel = getModel('openai', 'gpt-4o');
     //   const anthropicModel = getModel('anthropic', 'claude-3-5-sonnet-20241022');
@@ -19,10 +20,10 @@ describe('pi-ai core API', () => {
     //   expect(anthropicModel.provider).toBe('anthropic');
     // });
 
-    // it('应该在无效的 provider 或 model 时抛出错误', () => {
-    //   expect(() => getModel('invalid' as any, 'model')).toThrow();
-    //   expect(() => getModel('openai', 'invalid-model')).toThrow();
-    // });
+    it('应该在无效的 provider 或 model 时抛出错误', () => {
+      expect(() => getModel('invalid' as any, 'model')).toThrow();
+      expect(() => getModel('openai', 'invalid-model')).toThrow();
+    });
   });
 
   // describe('complete - 非流式调用', () => {

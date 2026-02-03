@@ -1,5 +1,5 @@
 import { MODELS } from "./model.constant";
-import type { Provider } from "./types";
+import type { ModelId, Provider } from "./types";
 
 const modelRegistry = new Map();
 
@@ -11,7 +11,7 @@ for (const [provider, models] of Object.entries(MODELS)) {
     modelRegistry.set(provider, providerModels);
 }
 
-export function getModel(provider: Provider, modelId: string) {
+export function getModel(provider: Provider, modelId: ModelId) {
     const providerModels = modelRegistry.get(provider);
     return providerModels?.get(modelId);
 }

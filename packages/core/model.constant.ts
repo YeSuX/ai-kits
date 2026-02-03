@@ -4,7 +4,7 @@ export const MODELS = {
             id: "k2.5",
             name: "Kimi K2.5",
             // api: "anthropic-messages",
-            // provider: "kimi-coding",
+            provider: "kimi",
             baseUrl: "https://api.moonshot.cn/v1",
             reasoning: true,
             input: ["text", "image"],
@@ -18,4 +18,4 @@ export const MODELS = {
             maxTokens: 32768,
         }
     }
-}
+} as const;
