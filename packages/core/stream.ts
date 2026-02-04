@@ -4,7 +4,7 @@ import type { Api, Context, Model } from "./types";
 export async function complete(
     model: Model,
     context: Context,
-    options?: unknown,
+    options?: any,
 ) {
     const s = stream(model, context, options);
     return s.result();
@@ -13,7 +13,7 @@ export async function complete(
 export function stream(
     model: Model,
     context: Context,
-    options?: unknown,
+    options?: any,
 ) {
     const provider = resolveApiProvider(model.api);
     return provider.stream(model, context, options);
