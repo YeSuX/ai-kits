@@ -36,12 +36,19 @@ export type KnownApi =
 export type Api = KnownApi | (string & {});
 
 export type RegisteredApiProvider = {
-  provider: unknown;
+  provider: ApiProviderInternal;
   sourceId?: string;
 };
 
 export interface ApiProvider<TApi extends Api = Api, TOptions extends unknown = unknown> {
   api: TApi;
-  stream: unknown;
-  streamSimple: unknown;
+  stream: any;
+  streamSimple: any;
 }
+
+export interface ApiProviderInternal {
+  api: Api;
+  stream: any;
+  streamSimple: any;
+}
+
