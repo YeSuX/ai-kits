@@ -3,7 +3,7 @@ export const MODELS = {
         'kimi-k2.5': {
             id: "k2.5",
             name: "Kimi K2.5",
-            // api: "anthropic-messages",
+            api: "anthropic-messages",
             provider: "kimi",
             baseUrl: "https://api.moonshot.cn/v1",
             reasoning: true,
