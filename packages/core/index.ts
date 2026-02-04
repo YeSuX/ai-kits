@@ -5,3 +5,4 @@ export * from './model';
 
 export * from './stream';
 
+export * from "./providers/register-builtins";
