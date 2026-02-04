@@ -1,14 +1,15 @@
+import { getEnvApiKey } from "../env-api-keys";
 import type { Api, Context, Model } from "../types";
 
 export const streamKimi: unknown = (
     model: Model,
     context: Context,
-    options?: unknown,
-): unknown => {
+    options?: any,
+): any => {
     const stream = null;
 
     (async () => {
-        const output: unknown = {
+        const output: any = {
             role: "assistant",
             content: [],
             api: model.api as Api,
@@ -27,7 +28,10 @@ export const streamKimi: unknown = (
         };
 
         try {
-            // const apiKey = options?.apiKey ?? getEnvApiKey(model.provider) ?? "";
+            const apiKey = options?.apiKey ?? getEnvApiKey(model.provider) ?? "";
+
+            console.log('---sx.apiKey---', apiKey);
+
             // const { client, isOAuthToken } = createClient(
             //     model,
             //     apiKey,
