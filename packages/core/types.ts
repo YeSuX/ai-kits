@@ -21,3 +21,21 @@ export interface Context {
 export type Message = unknown;
 
 export type Tool = unknown;
+
+export type KnownApi =
+  | "openai-completions"
+  | "openai-responses"
+  | "azure-openai-responses"
+  | "openai-codex-responses"
+  | "anthropic-messages"
+  | "bedrock-converse-stream"
+  | "google-generative-ai"
+  | "google-gemini-cli"
+  | "google-vertex";
+
+export type Api = KnownApi | (string & {});
+
+export type RegisteredApiProvider = {
+  provider: unknown;
+  sourceId?: string;
+};

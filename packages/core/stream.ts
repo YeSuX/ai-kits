@@ -1,4 +1,5 @@
-import type { Context, Model } from "./types";
+import { getApiProvider } from "./api-registry";
+import type { Api, Context, Model } from "./types";
 
 export async function complete(
     model: Model,
@@ -16,4 +17,12 @@ export function stream(
 ) {
     const provider = resolveApiProvider(model.api);
     return provider.stream(model, context, options);
+}
+
+function resolveApiProvider(api: Api) {
+    const provider = getApiProvider(api);
+    if (!provider) {
+        throw new Error(`No API provider registered for api: ${api}`);
+    }
+    return provider;
 }
