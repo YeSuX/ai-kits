@@ -9,10 +9,12 @@
     "test:coverage": "vitest run --coverage"
   },
   "devDependencies": {
-    "@types/bun": "latest",
-    "vitest": "^4.0.18"
+    "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "openai": "^6.17.0"
   }
 }
