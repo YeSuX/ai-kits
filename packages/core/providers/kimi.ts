@@ -124,12 +124,12 @@ export const streamKimi: unknown = (
         options?.interleavedThinking ?? true,
         options?.headers,
     );
-    
+
     const params = buildParams(model, context, isOAuthToken, options);
     options?.onPayload?.(params);
-    
+
     const kimiStream = client.chat.completions.stream(
-        { ...params, stream: true }, 
+        { ...params, stream: true },
         { signal: options?.signal }
     );
 
@@ -137,19 +137,31 @@ export const streamKimi: unknown = (
     return {
         async result() {
             try {
-                // 等待流完成并获取最终结果
+                // 必须先完全消费流，才能获取最终的 usage 信息
                 const completion = await kimiStream.finalChatCompletion();
-                const usage = await kimiStream.totalUsage();
+
+                console.log('---sx.completion---', completion.choices[0]?.usage);
+
+
+                // 在流完成后获取 usage
+                const usage = completion.choices[0]?.usage || {
+                    prompt_tokens: 0,
+                    completion_tokens: 0,
+                    total_tokens: 0
+                };
 
                 // 构造符合格式的响应
                 const content: any[] = [];
-                
+
                 if (completion.choices[0]?.message?.content) {
                     content.push({
                         type: 'text',
                         text: completion.choices[0].message.content
                     });
                 }
+
+                const inputCost = (usage.prompt_tokens || 0) * (model.cost.input || 0);
+                const outputCost = (usage.completion_tokens || 0) * (model.cost.output || 0);
 
                 return {
                     role: "assistant",
@@ -163,12 +175,12 @@ export const streamKimi: unknown = (
                         cacheRead: 0,
                         cacheWrite: 0,
                         totalTokens: usage.total_tokens || 0,
-                        cost: { 
-                            input: (usage.prompt_tokens || 0) * (model.cost.input || 0), 
-                            output: (usage.completion_tokens || 0) * (model.cost.output || 0), 
-                            cacheRead: 0, 
-                            cacheWrite: 0, 
-                            total: 0 
+                        cost: {
+                            input: inputCost,
+                            output: outputCost,
+                            cacheRead: 0,
+                            cacheWrite: 0,
+                            total: inputCost + outputCost
                         },
                     },
                     stopReason: completion.choices[0]?.finish_reason || "stop",
