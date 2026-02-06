@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { complete, getModel, type Context, type ModelId, type Provider } from './index';
+import { describe, it, expect, beforeEach } from 'vitest';
 
 describe('pi-ai core API', () => {
   describe('getModel', () => {
