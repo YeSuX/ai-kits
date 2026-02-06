@@ -44,12 +44,15 @@ describe('pi-ai core API', () => {
       expect(response.role).toBe('assistant');
       expect(response.content).toBeInstanceOf(Array);
       expect(response.timestamp).toBeTypeOf('number');
-      expect(response.model).toBe('k2.5');
+      expect(response.model).toBe('kimi-k2.5');
     });
 
     it('应该包含 usage 信息', async () => {
       const model = getModel('kimi', 'kimi-k2.5');
       const response = await complete(model, context);
+
+      console.log('---sx.response---', response);
+
 
       expect(response.usage).toBeDefined();
       expect(response.usage.input).toBeGreaterThan(0);
@@ -63,6 +66,9 @@ describe('pi-ai core API', () => {
     it('应该正确处理文本内容', async () => {
       const model = getModel('kimi', 'kimi-k2.5');
       const response = await complete(model, context);
+
+      console.log('---sx.response---', response);
+
 
       const textBlocks = response.content.filter(b => b.type === 'text');
       expect(textBlocks.length).toBeGreaterThan(0);

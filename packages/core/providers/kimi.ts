@@ -116,47 +116,68 @@ export const streamKimi: unknown = (
     context: Context,
     options?: any,
 ): any => {
-    const stream = null;
+    const apiKey = options?.apiKey ?? getEnvApiKey(model.provider) ?? "";
 
-    (async () => {
-        const output: any = {
-            role: "assistant",
-            content: [],
-            api: model.api as Api,
-            provider: model.provider,
-            model: model.id,
-            usage: {
-                input: 0,
-                output: 0,
-                cacheRead: 0,
-                cacheWrite: 0,
-                totalTokens: 0,
-                cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, total: 0 },
-            },
-            stopReason: "stop",
-            timestamp: Date.now(),
-        };
+    const { client, isOAuthToken } = createClient(
+        model,
+        apiKey,
+        options?.interleavedThinking ?? true,
+        options?.headers,
+    );
+    
+    const params = buildParams(model, context, isOAuthToken, options);
+    options?.onPayload?.(params);
+    
+    const kimiStream = client.chat.completions.stream(
+        { ...params, stream: true }, 
+        { signal: options?.signal }
+    );
 
-        try {
-            const apiKey = options?.apiKey ?? getEnvApiKey(model.provider) ?? "";
+    // 返回符合接口的对象
+    return {
+        async result() {
+            try {
+                // 等待流完成并获取最终结果
+                const completion = await kimiStream.finalChatCompletion();
+                const usage = await kimiStream.totalUsage();
 
-            console.log('---sx.apiKey---', apiKey);
+                // 构造符合格式的响应
+                const content: any[] = [];
+                
+                if (completion.choices[0]?.message?.content) {
+                    content.push({
+                        type: 'text',
+                        text: completion.choices[0].message.content
+                    });
+                }
 
-            const { client, isOAuthToken } = createClient(
-                model,
-                apiKey,
-                options?.interleavedThinking ?? true,
-                options?.headers,
-            );
-            const params = buildParams(model, context, isOAuthToken, options);
-            options?.onPayload?.(params);
-            const kimiStream = client.chat.completions.stream({ ...params, stream: true }, { signal: options?.signal });
-            console.log('---sx.kimiStream---', kimiStream);
-
-        } catch (error) {
-            console.error('---sx.error---', error);
+                return {
+                    role: "assistant",
+                    content,
+                    api: model.api as Api,
+                    provider: model.provider,
+                    model: model.id,
+                    usage: {
+                        input: usage.prompt_tokens || 0,
+                        output: usage.completion_tokens || 0,
+                        cacheRead: 0,
+                        cacheWrite: 0,
+                        totalTokens: usage.total_tokens || 0,
+                        cost: { 
+                            input: (usage.prompt_tokens || 0) * (model.cost.input || 0), 
+                            output: (usage.completion_tokens || 0) * (model.cost.output || 0), 
+                            cacheRead: 0, 
+                            cacheWrite: 0, 
+                            total: 0 
+                        },
+                    },
+                    stopReason: completion.choices[0]?.finish_reason || "stop",
+                    timestamp: Date.now(),
+                };
+            } catch (error) {
+                console.error('---sx.error---', error);
+                throw error;
+            }
         }
-    })();
-
-    return stream;
+    };
 };

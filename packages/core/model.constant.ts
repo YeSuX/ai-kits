@@ -1,7 +1,7 @@
 export const MODELS = {
     'kimi': {
         'kimi-k2.5': {
-            id: "k2.5",
+            id: "kimi-k2.5",
             name: "Kimi K2.5",
             api: "kimi-messages",
             provider: "kimi",
